@@ -182,7 +182,7 @@ product id, insufficient stock), not a scripted LLM response.
 
 ---
 
-## 7. Running it locally (100% free — no credit card needed)
+## 7. Running it locally 
 
 This project defaults to **Groq** for the LLM (free, no credit card, very
 fast — get a key in under a minute) and a **local, free embedding model**
