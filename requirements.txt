@@ -1,0 +1,19 @@
+Flask==3.1.3
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.36
+python-dotenv==1.0.1
+langgraph==0.2.60
+langchain==0.3.13
+langchain-core==0.3.28
+numpy==1.26.4
+
+# LLM providers (free-tier friendly). You only need the package for the
+# provider you actually pick in .env — the others are harmless to leave installed.
+langchain-groq==0.2.1
+langchain-google-genai==2.0.7
+langchain-openai==0.2.14
+langchain-anthropic==0.3.1
+
+# Local, free, no-API-key embeddings for RAG
+langchain-huggingface==0.1.2
+sentence-transformers==3.3.1

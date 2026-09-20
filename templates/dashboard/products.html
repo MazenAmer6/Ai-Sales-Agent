@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Products</h1>
+  <a class="btn" href="{{ url_for('dashboard.product_new') }}">+ New Product</a>
+</div>
+<table>
+  <tr><th>ID</th><th>Name</th><th>Brand</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
+  {% for p in products %}
+  <tr>
+    <td>#{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.brand }}</td><td>{{ p.category }}</td>
+    <td>${{ "%.2f"|format(p.price) }}</td>
+    <td class="{{ 'low-stock' if p.stock == 0 else '' }}">{{ p.stock }}</td>
+    <td>
+      <a href="{{ url_for('dashboard.product_edit', product_id=p.id) }}">Edit</a>
+      <form action="{{ url_for('dashboard.product_delete', product_id=p.id) }}" method="post" style="display:inline"
+            onsubmit="return confirm('Delete this product?')">
+        <button type="submit" class="link-btn">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7">No products yet. Run <code>python seed_data.py</code> or add one.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

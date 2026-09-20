@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Conversations{% endblock %}
+{% block content %}
+<h1>Conversations</h1>
+{% for c in conversations %}
+<div class="convo-card">
+  <div class="convo-head">Session {{ c.session_id[:8] }}… — {{ c.customer_email or "anonymous" }} — {{ c.created_at.strftime("%Y-%m-%d %H:%M") }}</div>
+  {% for m in c.messages %}
+    <div class="msg msg-{{ m.role }}"><strong>{{ m.role }}</strong>{% if m.intent %} <span class="tag">{{ m.intent }}</span>{% endif %}: {{ m.content }}</div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No conversations yet. Try the 💬 Test Agent.</p>
+{% endfor %}
+{% endblock %}

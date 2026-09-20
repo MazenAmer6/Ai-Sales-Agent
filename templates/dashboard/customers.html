@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block content %}
+<h1>Customers</h1>
+<table>
+  <tr><th>ID</th><th>Name</th><th>Email</th><th>Orders</th><th>Leads</th></tr>
+  {% for c in customers %}
+  <tr><td>#{{ c.id }}</td><td>{{ c.name }}</td><td>{{ c.email }}</td><td>{{ c.orders|length }}</td><td>{{ c.leads|length }}</td></tr>
+  {% else %}
+  <tr><td colspan="5">No customers yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

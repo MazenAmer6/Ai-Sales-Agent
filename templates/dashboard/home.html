@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stat-grid">
+  <div class="stat-card"><div class="stat-num">{{ stats.products }}</div><div class="stat-label">Products</div></div>
+  <div class="stat-card"><div class="stat-num">{{ stats.orders }}</div><div class="stat-label">Orders</div></div>
+  <div class="stat-card"><div class="stat-num">{{ stats.customers }}</div><div class="stat-label">Customers</div></div>
+  <div class="stat-card"><div class="stat-num">{{ stats.leads }}</div><div class="stat-label">Leads</div></div>
+  <div class="stat-card"><div class="stat-num">{{ stats.knowledge_docs }}</div><div class="stat-label">KB Docs</div></div>
+  <div class="stat-card"><div class="stat-num">{{ stats.conversations }}</div><div class="stat-label">Conversations</div></div>
+</div>
+
+<div class="two-col">
+  <div>
+    <h2>Recent Orders</h2>
+    <table>
+      <tr><th>ID</th><th>Customer</th><th>Status</th><th>Total</th></tr>
+      {% for o in recent_orders %}
+      <tr><td>#{{ o.id }}</td><td>{{ o.customer.email if o.customer else "-" }}</td><td>{{ o.status }}</td><td>${{ "%.2f"|format(o.total) }}</td></tr>
+      {% else %}
+      <tr><td colspan="4">No orders yet.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div>
+    <h2>Recent Leads</h2>
+    <table>
+      <tr><th>ID</th><th>Message</th><th>Status</th></tr>
+      {% for l in recent_leads %}
+      <tr><td>#{{ l.id }}</td><td>{{ l.message[:60] }}</td><td>{{ l.status }}</td></tr>
+      {% else %}
+      <tr><td colspan="3">No leads yet.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

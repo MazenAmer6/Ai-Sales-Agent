@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if product else "New" }} Product{% endblock %}
+{% block content %}
+<h1>{{ "Edit" if product else "New" }} Product</h1>
+<form method="post" class="form">
+  <label>Name<input name="name" required value="{{ product.name if product else '' }}"></label>
+  <label>Brand<input name="brand" value="{{ product.brand if product else '' }}"></label>
+  <label>Category<input name="category" required value="{{ product.category if product else '' }}"></label>
+  <label>Price<input name="price" type="number" step="0.01" required value="{{ product.price if product else '' }}"></label>
+  <label>Stock<input name="stock" type="number" value="{{ product.stock if product else 0 }}"></label>
+  <label>Description<textarea name="description" rows="4">{{ product.description if product else '' }}</textarea></label>
+  <button class="btn" type="submit">Save</button>
+</form>
+{% endblock %}

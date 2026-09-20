@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<h1>Orders</h1>
+<table>
+  <tr><th>ID</th><th>Customer</th><th>Status</th><th>Total</th><th>Items</th><th>Created</th></tr>
+  {% for o in orders %}
+  <tr>
+    <td>#{{ o.id }}</td>
+    <td>{{ o.customer.email if o.customer else "-" }}</td>
+    <td>{{ o.status }}</td>
+    <td>${{ "%.2f"|format(o.total) }}</td>
+    <td>{% for i in o.items %}{{ i.quantity }}x {{ i.product.name if i.product else '?' }}<br>{% endfor %}</td>
+    <td>{{ o.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6">No orders yet. Place one through the agent (💬 Test Agent).</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

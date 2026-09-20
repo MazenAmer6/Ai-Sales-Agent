@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if doc else "New" }} Knowledge Document{% endblock %}
+{% block content %}
+<h1>{{ "Edit" if doc else "New" }} Knowledge Document</h1>
+<form method="post" class="form">
+  <label>Title<input name="title" required value="{{ doc.title if doc else '' }}"></label>
+  <label>Category
+    <select name="category">
+      {% for c in ["policy", "faq", "shipping", "general"] %}
+        <option value="{{ c }}" {{ "selected" if doc and doc.category == c else "" }}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Content<textarea name="content" rows="8" required>{{ doc.content if doc else '' }}</textarea></label>
+  <button class="btn" type="submit">Save & Re-index</button>
+</form>
+{% endblock %}

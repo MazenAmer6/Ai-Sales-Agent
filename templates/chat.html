@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TechHub — Chat with our AI Agent</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="chat-body">
+  <div class="chat-window">
+    <div class="chat-header">
+      TechHub Electronics — AI Assistant
+      <a href="{{ url_for('dashboard.home') }}" class="chat-admin-link">Admin →</a>
+    </div>
+    <div id="messages" class="chat-messages"></div>
+    <form id="chat-form" class="chat-form">
+      <input id="email" type="email" placeholder="your email (optional, needed to place an order)">
+      <div class="chat-input-row">
+        <input id="message" type="text" placeholder="Ask about products, orders, shipping…" autocomplete="off" required>
+        <button type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+
+<script>
+const sessionId = crypto.randomUUID();
+const messagesEl = document.getElementById('messages');
+const form = document.getElementById('chat-form');
+
+function addMessage(role, text, intent) {
+  const div = document.createElement('div');
+  div.className = 'bubble bubble-' + role;
+  div.innerHTML = (intent ? `<span class="tag">${intent}</span> ` : '') + text.replace(/\n/g, '<br>');
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const messageInput = document.getElementById('message');
+  const emailInput = document.getElementById('email');
+  const text = messageInput.value.trim();
+  if (!text) return;
+  addMessage('user', text);
+  messageInput.value = '';
+
+  const thinking = document.createElement('div');
+  thinking.className = 'bubble bubble-assistant';
+  thinking.textContent = '…';
+  messagesEl.appendChild(thinking);
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        session_id: sessionId,
+        customer_email: emailInput.value.trim() || null,
+      }),
+    });
+    const data = await res.json();
+    thinking.remove();
+    addMessage('assistant', data.reply || data.error, data.intent);
+  } catch (err) {
+    thinking.remove();
+    addMessage('assistant', 'Something went wrong: ' + err.message);
+  }
+});
+
+addMessage('assistant', "Hi! I'm TechHub's AI assistant. Ask me about products, prices, shipping, returns, or place an order.");
+</script>
+</body>
+</html>
